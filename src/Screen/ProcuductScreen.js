@@ -5,6 +5,7 @@ import Rating from "../Component/Rating";
 import Loader from "./Loader";
 import apiHelper from "../Common/ApiHelper";
 import ErrorMessage from "./ErrorMessage";
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const ProductScreen = (props) => {
   let { setCartItems, cartItems } = props;
@@ -97,35 +98,43 @@ const ProductScreen = (props) => {
     setQuantity(product.countInStock && product.countInStock > 0 ? 1 : 0);
   }, [product]);
 
-  const images = product?.releventImg?.map((x) => [x.url,x._id]);
+  const images = product?.releventImg?.map((x) => [x.url, x._id]);
   return (
     <div>
+   
       <Loader isLoading={isLoading} />
       <ErrorMessage error={error} setError={setError} />
-      <Link
-        to={`/`}
-        className="link text-warning fs-5 d-none d-lg-block"
-        style={{ fontWeight: "600", float: "right", textDecoration: "none" }}
-      >
-        Back To Shopping
-      </Link>
+
+      <div className="col-12">
+
+<Link
+  to={'/'}
+  className="link text-warning fs-5 d-lg-block"
+  style={{ fontWeight: "600", float: "left", }}
+>
+  <KeyboardBackspaceIcon />
+
+</Link>
+</div>
       <div className="container-fluid mt-4 ">
+
         <div className="row">
           <div className="col g-3  mb-2 mb-md-0">
             <div className="row justify-content-between ">
-              <div className="col-12 col-xl-9 d-flex justify-content-xl-end justify-content-center ">
-{
-}                <img
+              <div className="col-12 col-xl-9 d-flex justify-content-xl-end justify-content-center align-items-center ">
+                {
+                }                <img
                   src={product?.image?.url}
                   className="img-fluid"
                   alt={product.name}
+
                 />
               </div>
               <div className="col mt-3">
-                <div className="row d-none d-sm-flex justify-content-sm-center align-items-xl-end">
-                  {images?.map((x) => {
+                <div className="row  d-sm-flex justify-content-sm-center align-items-xl-end">
+                  {images?.map((x, index) => {
                     return (
-                      <div className="col-2 col-md-3 col-xl-12 mb-2 " key={x[1]}>
+                      <div className="col-3 col-md-3 col-xl-12 mb-2 " key={x[1]}>
                         <img
                           src={x[0]}
                           id={product._id}
@@ -190,9 +199,8 @@ const ProductScreen = (props) => {
                       </h6>
 
                       <h6
-                        className={` fw-bold ${
-                          product.discount > 0 ? "d-flex" : "d-none"
-                        } `}
+                        className={` fw-bold ${product.discount > 0 ? "d-flex" : "d-none"
+                          } `}
                       >
                         Offer :
                         <span>
@@ -211,7 +219,7 @@ const ProductScreen = (props) => {
 
                   <span>
                     <button
-                      className="rounded"
+                      className="rounded btn btn-dark"
                       disabled={quantity <= 0}
                       onClick={() => setQuantity(quantity - 1)}
                     >
@@ -221,7 +229,7 @@ const ProductScreen = (props) => {
                     <span> {quantity} </span>
 
                     <button
-                      className="rounded"
+                      className="rounded btn btn-dark"
                       disabled={
                         product.countInStock <= 0 ||
                         quantity >= product.countInStock
@@ -246,20 +254,22 @@ const ProductScreen = (props) => {
                   )}
                 </div>
 
-                <button
-                  className="btn   btn-outline-secondary w-100"
-                  disabled={quantity <= 0}
-                  onClick={AddtoCart}
-                >
-                  Add to Cart
-                </button>
-                <button
-                  className="btn  btn-outline-primary w-100 mt-3"
-                  disabled={quantity <= 0}
-                  onClick={AddtoCartAndBuy}
-                >
-                  Buy Now
-                </button>
+                <div className="d-flex gap-3">
+                  <button
+                    className="btn   btn-outline-secondary w-50"
+                    disabled={quantity <= 0}
+                    onClick={AddtoCart}
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    className="btn  btn-outline-primary w-50"
+                    disabled={quantity <= 0}
+                    onClick={AddtoCartAndBuy}
+                  >
+                    Buy Now
+                  </button>
+                </div>
 
                 <p className="mb-2 mt-4 fw-bold">DESCRIPTION :</p>
                 <div

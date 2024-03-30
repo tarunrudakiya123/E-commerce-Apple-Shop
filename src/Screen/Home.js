@@ -12,6 +12,7 @@ const Home = () => {
   const GetProducts = async () => {
     try {
       setisLoading(true);
+      
       const result = await apiHelper.fetchProducts();
       if (result.status === 200) {
         setProduct(result.data.products);
@@ -37,35 +38,18 @@ const Home = () => {
   return (
 
 
+    // <main className='container' style={{ minHeight: "83.2vh" }}>
 
-    <main className='p-2 bg-light ' style={{ minHeight: "83.2vh" }}>
+    <main className="container-fluid">
 
-      <div className='container '>
-        
+      <div>
+
         <ErrorMessage error={error} setError={setError} />
 
         <Loader isLoading={isLoading} />
-        <div className="row ">
-          <h1 className=' ms-2 p-2  Product_title1 mt-4'><span className="Store fw-bold">Store.</span> The best way to buy the products you love.</h1>
+        <div className="row m-0">
+          <h1 className=' ms-2  Product_title1'><span className="Store fw-bold">Store.</span> The best way to buy the products you love.</h1>
         </div>
-
-        <div className="row d-flex ">
-          <h3 className='ms-2 col-6 Product_title2'> All models. Take your pick.</h3>
-        </div>
-
-      </div>
-
-      <div className=' container d-flex flex-wrap align-items-center justify-content-center gap-5  mt-5'>
-
-        {product &&
-          product.map((data) => {
-            return <ProductCard key={data._id} product={data} />;
-          })}
-
-      </div>
-
-      <div className='container mt-5'>
-        <h3 className=' ms-2 p-2   Product_title1 mt-5'><b>The latest.</b> Take a look at what’s new right now.</h3>
 
         <div className='row mt-4'>
           <div className="card-group gap-4">
@@ -83,7 +67,7 @@ const Home = () => {
               <h2 className="card-title fw-bold ms-3 mt-1 text-white">Beyond Pro.</h2>
               {/* <img src="Apple Images/Iphone-2.jpeg" className="card-img-top" alt="props" /> */}
 
-              <video width="390" height="440" autoPlay loop muted auto="true"  >
+              <video className="ms-4" width="340" height="440" autoPlay loop muted auto="true"  >
                 <source src="/images/NewImg/Iphone14Pro.mp4" type="video/mp4" />
                 <source src="/images/NewImg/Iphone14Pro.ogg" type="video/ogg" />
               </video>
@@ -101,25 +85,39 @@ const Home = () => {
           </div>
 
         </div>
+
+        <div className="row d-flex ">
+          <h2 className='ms-2 mt-3 col-6 Product_title2 mt-2'> All models. Take your pick.</h2>
+        </div>
+
       </div>
 
+      <div className=' row d-flex flex-wrap align-items-center justify-content-around  mt-4 m-0'>
+
+        {product &&
+          product?.map((data) => {
+            return <ProductCard key={data._id} product={data} />;
+          })}
+
+      </div>
+
+      <div className='ms-3 mb-5'>
+        <h3 className=' Product_title1 mt-5'><b>The latest.</b> Take a look at what’s new right now.</h3>
 
 
+      </div>
 
-
-
-
+      {/* 
 
       <div className="container mt-2 ">
         <h3 className=' ms-2 p-2   Product_title1 mt-5'><b>The latest.</b> Take a look at what’s new right now.</h3>
-      </div>
+      </div> */}
 
 
-      <div className='container border-none '>
-        <div className="card text-white mt-2 ">
+      <div className=' border-none m-0 p-0 '>
+        <div className=" text-white mt-2 ">
           <img src="images/NewImg/Group Product1.JPEG" className="card-img img-fluid" alt="Props" />
-          <div className="card-img-overlay">
-          </div>
+         
         </div>
       </div>
 

@@ -1,28 +1,41 @@
-import React from 'react';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 
 const CheckoutSteps = (props) => {
-    const { signin, shipping, payment, placeorder } = props
+    const { signin, shipping, payment, placeorder } = props;
+    const steps = ['Sign in', 'Shipping', 'Payment', 'Place Order'];
+
+    const getStepContent = (step) => {
+        switch (step) {
+            case 0:
+                return signin;
+            case 1:
+                return shipping;
+            case 2:
+                return payment;
+            case 3:
+                return placeorder;
+            default:
+                return null;
+        }
+    };
+
     return (
-        <div className='container-fluid'>
-            <div className="row ">
-                <div className="col-3  px-3" style={{ paddingTop: "5px", borderTop: signin ? "3px solid #ff8000" : "3px solid grey" }}>
-                    <h5 className='checkoutH5' style={{ color: signin ? "#ff8000" : "gray" }}>Sign in</h5>
-                </div>
-                <div className="col-3  px-3" style={{ paddingTop: "5px", borderTop: shipping ? "3px solid #ff8000" : "3px solid grey" }}>
-                    <h5 className='checkoutH5' style={{ color: shipping ? "#ff8000" : "gray" }}>Shipping</h5>
-
-                </div>
-                <div className="col-3  px-3" style={{ paddingTop: "5px", borderTop: payment ? "3px solid #ff8000" : "3px solid grey" }}>
-                    <h5 className='checkoutH5' style={{ color: payment ? "#ff8000" : "gray" }}>Payment</h5>
-
-                </div>
-                <div className="col-3  px-3" style={{ paddingTop: "5px", borderTop: placeorder ? "3px solid #ff8000" : "3px solid grey" }}>
-                    <h5 className='checkoutH5' style={{ color: placeorder ? "#ff8000" : "gray" }}>Place Order</h5>
-
-                </div>
-            </div>
-
-        </div>
+        <Box sx={{ width: '100%' }}>
+            <Stepper activeStep={props.activeStep}>
+                {steps.map((label, index) => (
+                    <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                    </Step>
+                ))}
+            </Stepper>
+            <Box>
+                <p>{getStepContent(props.activeStep)}</p>
+            </Box>
+        </Box>
     );
 };
 

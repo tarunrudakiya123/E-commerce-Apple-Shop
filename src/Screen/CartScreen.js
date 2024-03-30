@@ -112,7 +112,7 @@ function CartScreen(props) {
   };
 
   const checkOutHandler = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("userToken");
     if (!token) {
       navigate("/login?redirect=shipping");
       return;
@@ -133,6 +133,9 @@ function CartScreen(props) {
 
         <Loader isLoading={isLoading} />
         <div className="row justify-content-center ">
+        <h4>Apple Cart</h4>
+
+
 
           <div className="col-md-8">
             {cart.length <= 0 ? (
@@ -149,7 +152,7 @@ function CartScreen(props) {
             ) : (
               //if items available in cart
               cart &&
-              cart.map((product, key) => {
+              cart?.map((product, key) => {
                 return (
                   <div className="container">
                     <div className="row">
@@ -223,7 +226,7 @@ function CartScreen(props) {
                                       );
                                       setCart([...cart]);
 
-                                      let tmp = cart.map((x) => {
+                                      let tmp = cart?.map((x) => {
                                         return {
                                           product: product._id,
                                           quantity: product.quantity,

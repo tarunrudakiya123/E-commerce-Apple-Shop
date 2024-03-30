@@ -13,14 +13,15 @@ export default function PaymentScreen() {
 
     return (
         <div className="container py-5 ">
-            <CheckoutSteps signin={true} shipping={true} payment={true} />
+            <CheckoutSteps activeStep={2} />
             <div className="row d-flex justify-content-center">
 
                 <div className="col-md-8 col-lg-6 mt-5 col-xl-4">
                     <div className="card rounded-3 shadow-lg">
                         <div className="card-body mx-3 my-2 ">
-                            <h5 className="text-center">Payment Method</h5>
+                        <h1 className="text-center"><i  class="fa-brands fa-cc-apple-pay"></i></h1>
 
+                            <h5 className="text-center">Payment Method</h5>
                             <div className="pt-3">
                                 <div className="rounded border d-flex w-100 px-3 py-2  align-items-center">
                                     <div className="payment d-flex align-items-center pe-3">

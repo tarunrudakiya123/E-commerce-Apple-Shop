@@ -1,275 +1,182 @@
 import { useState } from "react";
-import Input from "../Component/Input";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
-import validation from "../Common/Validation";
 import CheckoutSteps from "../Component/CheckoutSteps";
 import ErrorMessage from "./ErrorMessage";
+import { TextField } from "@mui/material";
 
 export default function ShippingScreen() {
   const [error, setError] = useState({ message: "", type: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const [shippingError, setshippingError] = useState([]);
-  const [isSubmited, setisSubmited] = useState(false);
   const navigate = useNavigate();
-  const [address, setaddress] = useState({
-    fullName: "",
-    Address: "",
-    mobile: "",
-    city: "",
-    state: "",
-    email: "",
-    pincode: "",
+
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      address: "",
+      mobile: "",
+      city: "",
+      state: "",
+      email: "",
+      pincode: "",
+    },
+    validationSchema: Yup.object().shape({
+      fullName: Yup.string().required("Full Name is required"),
+      address: Yup.string().required("Address is required"),
+      mobile: Yup.string().required("Mobile No. is required"),
+      email: Yup.string().email("Invalid email address").required("Email is required"),
+      city: Yup.string().required("City is required"),
+      state: Yup.string().required("State is required"),
+      pincode: Yup.string().required("Pin Code is required"),
+    }),
+    onSubmit: (values) => {
+      handleFormSubmit(values);
+    },
   });
 
-  const addressHandler = () => {
+  const handleFormSubmit = (values) => {
     try {
-      setisSubmited(true);
-
-      const ValidationResult = validation(address, "shipping");
-
-      if (ValidationResult.length > 0) {
-        setshippingError(ValidationResult);
-        return;
-      }
-
       setIsLoading(true);
-      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}"); // userinfo get karva mate
+      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
-      userInfo.Address = address;
+      userInfo.Address = values;
 
-      localStorage.setItem("userInfo", JSON.stringify(userInfo)); // userinfo ma address add karii ne uodate kari pacho LS ma store karavo che
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
       setIsLoading(false);
 
       navigate("/paymentMethod");
     } catch (error) {
       setIsLoading(false);
-      if (error.response && error.response.data) {
-        if (
-          error.response &&
-          error.response.status === 400 &&
-          error.response.data.message === "Validation Error"
-        ) {
-          setshippingError(error.response.data.validationResult);
-          return;
-        }
-
-        setError({
-          ...error,
-          message: error.response.data.message,
-          type: "danger",
-        });
-       
-        return;
-      } else {
-        setError({
-          ...error,
-          message: error.message,
-          type: "danger",
-        });
-      
-      }
+     
     }
   };
 
   return (
     <>
       <div className="container py-5 ">
-        <CheckoutSteps signin={true} shipping={true} />
+        <CheckoutSteps activeStep={1} />
         <ErrorMessage error={error} setError={setError}/>
-
         <Loader isLoding={isLoading} />
       </div>
       <div className="container ">
-        <form className="row g-3 mt-5 needs-validation">
+        <form onSubmit={formik.handleSubmit} className="row g-3  needs-validation">
           <div className="col-md-12">
-            <label className="form-label">FullName</label>
-            <div className="Input-group has-validation">
-              <Input
-                isError={
-                  shippingError.find((x) => x.key === "fullName") ? true : false
-                }
-                helperText={
-                  shippingError.find((x) => x.key === "fullName")?.message
-                }
-                type="text"
-                value={address.fullName}
-                onChange={(e) => {
-                  setaddress({ ...address, fullName: e.target.value });
-
-                  if (isSubmited) {
-                    const validationResult = validation(
-                      { ...address, fullName: e.target.value },
-                      "shipping"
-                    );
-
-                    setshippingError(validationResult);
-                  }
-                }}
-                className="form-control"
-              />
-            </div>
+            <label className="form-label">Full Name</label>
+            <TextField
+              variant="outlined"
+              error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+              helperText={formik.touched.fullName && formik.errors.fullName}
+              type="text"
+              name="fullName"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="form-control"
+            />
           </div>
           <div className="col-md-6">
             <label className="form-label">Address</label>
-            <Input
-              isError={
-                shippingError.find((x) => x.key === "Address") ? true : false
-              }
-              helperText={
-                shippingError.find((x) => x.key === "Address")?.message
-              }
-              value={address.Address}
+            <TextField
+              variant="outlined"
+              error={formik.touched.address && Boolean(formik.errors.address)}
+              helperText={formik.touched.address && formik.errors.address}
               type="text"
+              name="address"
+              value={formik.values.address}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="form-control"
-              onChange={(e) => {
-                setaddress({ ...address, Address: e.target.value });
-
-                if (isSubmited) {
-                  const validationResult = validation(
-                    { ...address, Address: e.target.value },
-                    "shipping"
-                  );
-
-                  setshippingError(validationResult);
-                }
-              }}
-              id="validationCustom03"
-              required
             />
           </div>
           <div className="col-md-3">
-            <label className="form-label">Mobile NO.:</label>
-            <Input
+            <label className="form-label">Mobile No.</label>
+            <TextField
+              variant="outlined"
+              error={formik.touched.mobile && Boolean(formik.errors.mobile)}
+              helperText={formik.touched.mobile && formik.errors.mobile}
               type="tel"
-              isError={
-                shippingError.find((x) => x.key === "Mobile") ? true : false
-              }
-              helperText={
-                shippingError.find((x) => x.key === "Mobile")?.message
-              }
-              value={address.mobile}
-              placeholder="123-4567-890"
-              onChange={(e) => {
-                setaddress({ ...address, mobile: e.target.value });
-
-                if (isSubmited) {
-                  const validationResult = validation(
-                    { ...address, mobile: e.target.value },
-                    "shipping"
-                  );
-
-                  setshippingError(validationResult);
-                }
-              }}
+              name="mobile"
+              value={formik.values.mobile}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="form-control"
-              id="validationCustom03"
-              required
             />
           </div>
           <div className="col-md-3">
             <label className="form-label">Email</label>
-            <Input
+            <TextField
+              variant="outlined"
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
               type="text"
-              onChange={(e) => {
-                setaddress({ ...address, email: e.target.value });
-
-                if (isSubmited) {
-                  const validationResult = validation(
-                    { ...address, email: e.target.value },
-                    "shipping"
-                  );
-
-                  setshippingError(validationResult);
-                }
-              }}
-              isError={
-                shippingError.find((x) => x.key === "email") ? true : false
-              }
-              helperText={shippingError.find((x) => x.key === "email")?.message}
-              value={address.email}
-              placeholder="Example@gmail.com"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="form-control"
-              id="validationCustom03"
-              required
             />
           </div>
-
           <div className="col-md-6">
             <label className="form-label">City</label>
-            <Input
-              isError={
-                shippingError.find((x) => x.key === "City") ? true : false
-              }
-              helperText={shippingError.find((x) => x.key === "City")?.message}
-              value={address.city}
+            <TextField
+              variant="outlined"
+              error={formik.touched.city && Boolean(formik.errors.city)}
+              helperText={formik.touched.city && formik.errors.city}
               type="text"
+              name="city"
+              value={formik.values.city}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="form-control"
-              onChange={(e) => {
-                setaddress({ ...address, city: e.target.value });
-                if (isSubmited) {
-                  const validationResult = validation(
-                    { ...address, city: e.target.value },
-                    "shipping"
-                  );
-                  setshippingError(validationResult);
-                }
-              }}
-              id="validationCustom03"
-              required
             />
           </div>
           <div className="col-md-3">
             <label className="form-label">State</label>
-            <select
+            <TextField
+              variant="outlined"
+              select
+              error={formik.touched.state && Boolean(formik.errors.state)}
+              helperText={formik.touched.state && formik.errors.state}
+              name="state"
+              value={formik.values.state}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="form-select"
-              id="validationCustom04"
-              required
-              onChange={(e) => {
-                setaddress({ ...address, state: e.target.value });
+              SelectProps={{
+                native: true,
               }}
             >
               <option disabled>Choose...</option>
               <option>Gujarat</option>
-              <option>Jugadi</option>
-              <option>Up</option>
+              <option>Maharastra</option>
+              <option>Rajasthan</option>
+              <option>Goa</option>
+              <option>MP</option>
               <option>Delhi</option>
-              <option>Bombey</option>
-            </select>
+
+            </TextField>
           </div>
           <div className="col-md-3">
             <label className="form-label">Pin Code</label>
-            <Input
+            <TextField
+              variant="outlined"
+              error={formik.touched.pincode && Boolean(formik.errors.pincode)}
+              helperText={formik.touched.pincode && formik.errors.pincode}
               type="text"
-              isError={
-                shippingError.find((x) => x.key === "pincode") ? true : false
-              }
-              helperText={
-                shippingError.find((x) => x.key === "pincode")?.message
-              }
-              value={address.pincode}
+              name="pincode"
+              value={formik.values.pincode}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               className="form-control"
-              id="validationCustom05"
-              onChange={(e) => {
-                setaddress({ ...address, pincode: e.target.value });
-                if (isSubmited) {
-                  const validationResult = validation(
-                    { ...address, pincode: e.target.value },
-                    "shipping"
-                  );
-
-                  setshippingError(validationResult);
-                }
-              }}
-              required
             />
           </div>
-
           <div className="col-12 mt-5">
             <button
-              onClick={addressHandler}
+              type="submit"
               className="btn btn-outline-warning  mb-3"
-              type="button"
+              disabled={isLoading}
             >
               Order Product
             </button>

@@ -1,0 +1,24 @@
+/* ProductCard.css */
+
+.card-container {
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card-container:hover {
+    transform: rotateY(40deg);
+  }
+  
+  .ProductCard {
+    position: relative;
+    transform-origin: center right;
+    backface-visibility: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .ProductCard:hover {
+    transform: rotateY(-40deg);
+  }
+  

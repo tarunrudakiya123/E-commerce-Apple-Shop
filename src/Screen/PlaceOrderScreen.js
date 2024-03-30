@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import CheckoutSteps from "../Component/CheckoutSteps";
-// import { useNavigate } from "react-router-dom"
 import apiHelper from "../Common/ApiHelper";
-import { useLocation, useNavigate } from "react-router-dom";
-import RazorpayPayment from "../Component/Razorpay";
+import { useLocation } from "react-router-dom";
+// import RazorpayPayment from "../Component/Razorpay";
 import ErrorMessage from "./ErrorMessage";
+import Invoice from "./Invoice";
+import { toast } from "react-toastify";
 
 export default function PlaceOrderScreen(props) {
   const location = useLocation();
-  const navigate = useNavigate();
-
+  const [showComponent, setShowComponent] = useState(false);
   let { cartItems, setCartItems } = props;
   const [cart, setCart] = useState([]);
   const [error, setError] = useState({ message: "", type: "" });
+
+  const [orderData, setOrderData] = useState({});
 
   const paymentMethod = location.search.split("paymentMethod=")[1];
 
@@ -105,6 +107,7 @@ export default function PlaceOrderScreen(props) {
   }, []);
 
   const placeOrderHandler = async () => {
+
     try {
       const userInfo = JSON.parse(localStorage.getItem("userInfo") || "[]");
       const products = cart.map(({ _id, quantity, price }) => ({
@@ -112,35 +115,19 @@ export default function PlaceOrderScreen(props) {
         quantity,
         price,
       }));
-      const orderDetails = {
+      setOrderData({
         userInfo: userInfo,
         paymentMethod: paymentMethod,
         products: products,
         shippingAddress: userInfo.Address,
         totalPrice: SummaryDetails.totalAmount,
-      };
-      const result = await apiHelper.placeOrder(orderDetails);
-      setCartItems([]);
-      if (!result.data.order.RazorpayDetails) {
-        return navigate(`/OrderDetails/${result.data.order._id}`);
-      } else {
-        const data = result.data.order;
-        const option = {
-          name: data.address.fullName,
-          mobile: data.address.mobile,
-          Address: data.address.Address,
-          apiKey: data.RazorpayDetails.apikey,
-          amount: data.RazorpayDetails.amount,
-          currency: data.RazorpayDetails.currency,
-          razorpayOrderid: data.RazorpayDetails.id,
-          orderId: data._id,
-          setError: setError,
-          // navigate: result.data.order._id,
-          navigate: navigate,
-          // navigate: navigate(`/OrderDetails/${result.data.order._id}`),
-        };
-        RazorpayPayment(option);
-      }
+      })
+
+      setShowComponent(true)
+      toast.success('Thanks for Shopping')
+
+
+
     } catch (error) {
       setError({
         ...error,
@@ -149,22 +136,24 @@ export default function PlaceOrderScreen(props) {
       });
     }
   };
+
+
+
+
+
+
+
   return (
     <>
-      <section className="h-100 gradient-custom">
+      <section className="h-100">
         <div className="container py-4">
-          <CheckoutSteps
-            signin={true}
-            shipping={true}
-            payment={true}
-            placeorder={true}
-          />
-          <ErrorMessage error={error} setError={setError}/>
+          <CheckoutSteps activeStep={3} />
+          <ErrorMessage error={error} setError={setError} />
 
           <div className="row d-flex justify-content-center my-4">
             <div className="col-md-8">
               <div className="card mb-4 shadow">
-                <div className="card-header py-3 ">
+                <div className="card-header py-3 bg-dark text-white ">
                   <h5 className="mb-0">Review Your Order</h5>
                 </div>
                 <div className="card-body">
@@ -176,15 +165,15 @@ export default function PlaceOrderScreen(props) {
                         <p className="ms-3">{shippingInfo.fullName}</p>
                       </div>
                       <div
-                        className="address d-flex "
-                        style={{ marginTop: "-10px", marginBottom: "-20px" }}
+                        className="address d-flex mb-2  align-items-center"
+                        style={{ marginTop: "-10px", marginBottom: "-18px" }}
                       >
                         <h6>Address :</h6>
-                        <p className="ms-3">{shippingInfo.Address}</p>
+                        <p className="ms-4 mt-2">{shippingInfo.address}</p>
                       </div>
                       <div
                         className="address d-flex  mb-0 mt-2 mb-0"
-                        style={{ marginTop: "-10px", marginBottom: "-20px" }}
+                        style={{ marginTop: "-20px", marginBottom: "-20px" }}
                       >
                         <h6>Phone No :</h6>
                         <p className="ms-3">{shippingInfo.mobile}</p>
@@ -197,7 +186,7 @@ export default function PlaceOrderScreen(props) {
                       <h5>Payment Imformation</h5>
                       <div className="address d-flex mb-0 mt-4 mb-0">
                         <h6>Payment Method:</h6>
-                        <p className="ms-3 text-primary fw-bold fs-4">
+                        <p className="ms-3 text-primary fw-bold mb-2">
                           {paymentMethod}
                         </p>
                       </div>
@@ -261,7 +250,7 @@ export default function PlaceOrderScreen(props) {
             </div>
             <div className="col-md-4">
               <div className="card mb-4 shadow">
-                <div className="card-header py-3">
+                <div className="card-header py-3 bg-dark text-white ">
                   <h5 className="mb-0">Order Summary</h5>
                 </div>
                 <div className="card-body">
@@ -279,11 +268,11 @@ export default function PlaceOrderScreen(props) {
                       Total
                       <span>{SummaryDetails.totalAmount}</span>
                     </li>
-                    {/* <li
-                                            className="list-group-item d-flex justify-content-between align-items-center px-0 mb-3">
-                                            Discount
-                                            <span>$53.98</span>
-                                        </li> */}
+                    <li
+                      className="list-group-item d-flex justify-content-between align-items-center px-0 mb-3">
+                      Discount
+                      <span>$53.98</span>
+                    </li>
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                       <div>
                         <strong>Order Total </strong>
@@ -296,8 +285,8 @@ export default function PlaceOrderScreen(props) {
 
                   <div className="button justify-content-center ">
                     <button
-                      type="button "
-                      className="btn btn-warning btn-lg w-100"
+                      type="button-88 "
+                      className="btn btn-outline-warning btn-lg w-100"
                       onClick={placeOrderHandler}
                     >
                       Place your order
@@ -309,6 +298,21 @@ export default function PlaceOrderScreen(props) {
           </div>
         </div>
       </section>
+
+      {showComponent && (
+        <div className="popup">
+          <div className="popup-content">
+            <span className="close-popup" onClick={() => setShowComponent(false)}>&times;</span>
+            <Invoice
+            showComponent={showComponent}
+            setShowComponent={setShowComponent}
+              orderData={orderData}
+              cart={cart}
+            />
+          </div>
+        </div>
+      )}
+
     </>
   );
 }

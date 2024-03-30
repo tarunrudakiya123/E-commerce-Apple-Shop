@@ -1,71 +1,141 @@
-# Getting Started with Create React App
+import React, { useState } from 'react';
+import { Formik, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap styles
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import FormControl from '@mui/material/FormControl';
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+const SignupSchema = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  phone: Yup.string().required('Phone is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  upload: Yup.mixed().required('Upload is required'),
+  country: Yup.object().required('Country is required'),
+});
 
-In the project directory, you can run:
+const initialValues = {
 
-### `npm start`
+  email: '',
+  password: '',
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+};
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+const Login = () => {
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  const handleSubmit = async (values) => {
+    console.log(values);
+    // const response = await dispatch(userSignUp(values));
+    // if (response) {
+    //   toast.success('Signup Successfully');
+    // }
+  };
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  return (
+    <div>
+      <div className="row align-items-center justify-content-center m-0 gap-5">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+        <div className="col-md-8 order-md-1  Login_page">
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+        </div>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+        <div className="col-md-3 order-md-2">
 
-## Learn More
+          {/* Signup Form */}
+          <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
+            <Form >
+              <div className='text-center'>
+                <img style={{ height: "40px", width: "40px", borderRadius: "50%" }} src="https://assets-v2.lottiefiles.com/a/66d31bbc-1151-11ee-8507-739ffcf7bc3c/NmBS3qhYyP.gif" alt="animation" />
+                <h3 className="mb-2">Login</h3>
+              </div>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+              <div>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+                <div>
+                  <TextField id="email" name="email" type="email" label="Email" variant="outlined" fullWidth margin="normal" />
+                  <ErrorMessage name="email" component="div" className="text-danger" />
+                </div>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+                <div>
+                  <div>
+                    <FormControl variant="outlined">
+                      <TextField
 
-### Making a Progressive Web App
+                        id="password"
+                        name="password"
+                        type={visible ? 'text' : 'password'}
+                        label="Password"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        InputLabelProps={{ shrink: true }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => setVisible(!visible)}
+                                edge="end"
+                              >
+                                {visible ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </FormControl>
+                    <ErrorMessage name="password" component="div" className="text-danger" />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+                  </div>
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+                </div>
+              </div>
 
-### Deployment
+              <div className="col-12 mt-2 d-flex align-items-center justify-content-center mb-2 ">
+                <div> <span style={{ fontSize: "13px" }} >Don't have a account</span> <Link to={"/signup"}> <strong style={{ fontSize: "13px" }}>SingUp!</strong></Link></div>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+              </div>
 
-### `npm run build` fails to minify
+              <div className="col-12 mt-2 d-flex align-items-center justify-content-between gap-5 p-0 ">
+                <button type="submit" className="button-99">Submit</button>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-"# E_commerce_User" 
+                <div><Link to={"/forgotPassword"}> <strong style={{ fontSize: "13px" }}>Forgot Password!</strong></Link></div>
+
+
+              </div>
+
+
+
+            </Form>
+          </Formik>
+
+        </div>
+
+
+      </div>
+    </div>
+  );
+};
+
+export default Login;

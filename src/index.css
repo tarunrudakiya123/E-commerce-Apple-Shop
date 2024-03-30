@@ -1,16 +1,12 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: SF Pro Display, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+  
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 
 @media (min-width: 1025px) {
   .h-custom {
@@ -30,7 +26,8 @@ code {
 }
 
 .bg-grey {
-  background-color: #eae8e8;
+  /* background-color: #eae8e8; */
+
 }
 
 @media (min-width: 992px) {
@@ -81,10 +78,6 @@ form#userForm button {
 }
 
 
-body {
-  background: #f5f5f5
-}
-
 .rounded {
   border-radius: 1rem
 }
@@ -97,26 +90,502 @@ body {
   color: white
 }
 
-input[type="radio"] {
-  margin-right: 5px
-}
 
-.bold {
-  font-weight: bold
-}
 
-a{
+
+a {
   text-decoration: none;
   color: black;
 }
 
-.card:hover{
+.card:hover {
   transform: translateY(-2px);
 }
-.card{
-  transition: all 0.2s ;
+
+.card {
+  transition: all 0.2s;
+}
+
+.Sign_page {
+  background-image: url(/public/images/NewImg/Welcome_Apple.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 500px;
+  overflow: hidden;
+  transition: all 0.7s linear;
 }
 
 
 
 
+.Login_page {
+  background-image: url(/public/images/NewImg/apple\ wwdc\ 2021.webp);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 450px;
+  overflow: hidden;
+  border-radius: 10px;
+
+  transition: all 2s linear;
+}
+
+
+
+
+.ForgotPassword_page {
+  background-image: url(/public/images/NewImg/Apple-forgotPassword.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 440px;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: all 1s linear;
+}
+
+
+.ResetPassword_page {
+  background-image: url(/public/images/NewImg/forgotPassword_apple.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 440px;
+  overflow: hidden;
+  border-radius: 10px;
+
+  transition: all 1s linear;
+}
+
+/* CSS */
+.button-88 {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 0.2em 1.4em 0.3em 1.1em;
+  color: white;
+  background: #ad5389;
+  background: linear-gradient(0deg, rgba(20, 167, 62, 1) 0%, rgba(102, 247, 113, 1) 100%);
+  border: none;
+  box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+  letter-spacing: 0.05em;
+  border-radius: 20em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-88:hover {
+  box-shadow: 0 0.5em 1.5em -0.5em #0d0d0d98;
+  background: linear-gradient(0deg, rgb(25, 39, 28) 0%, rgb(22, 124, 30) 100%);
+
+}
+
+.button-88:active {
+  box-shadow: 0 0.3em 1em -0.5em #14a73e98;
+}
+
+
+.button-99 {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 0.4em 1em 0.4em 1.1em;
+  color: white;
+  background: #ad5389;
+  background: linear-gradient(0deg, rgba(20, 167, 62, 1) 0%, rgba(102, 247, 113, 1) 100%);
+  border: none;
+  box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+  letter-spacing: 0.05em;
+  border-radius: 20em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-99:hover {
+  box-shadow: 0 0.5em 1.5em -0.5em #0d0d0d98;
+  background: linear-gradient(0deg, rgb(25, 39, 28) 0%, rgb(22, 124, 30) 100%);
+
+}
+
+
+body {
+  font-family: SF Pro Display, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
+
+}
+
+
+
+/*----------- NavBar CSS -------------------*/
+.navbar {
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  box-shadow: 1px 1px 1px rgba(47, 46, 46, 0.429);
+  background-color: #edeaeafa !important;
+
+}
+
+.Header {
+  position: sticky !important;
+  top: 0;
+  z-index: 999;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.Store {
+  animation: clr 15s infinite ease-in-out forwards alternate;
+}
+
+#AppleIcon {
+  animation: clr 15s infinite ease-in-out forwards alternate;
+
+}
+
+@keyframes clr {
+
+  0% {
+    color: rgb(206, 187, 12);
+    animation-delay: 0.5s;
+
+  }
+
+  15% {
+    color: rgb(82, 116, 220);
+
+  }
+
+  25% {
+    color: #6adbf4;
+
+  }
+
+  33% {
+    color: #73dffa;
+
+  }
+
+  55% {
+    color: rgb(194, 132, 217);
+
+  }
+
+  75% {
+    color: rgb(125, 139, 32);
+    animation-delay: 0.5s;
+
+  }
+
+  90% {
+    color: rgb(154, 191, 21);
+    animation-delay: 1s;
+
+  }
+
+  100% {
+    color: #a86b01;
+
+  }
+}
+
+.link {
+  color: rgb(84, 208, 187);
+}
+
+.link:hover {
+  color: #eb9e0e;
+}
+
+.card i {
+  color: #000000 !important;
+  /* text-shadow: 1px 1px 1px rgb(0, 0, 0); */
+
+}
+
+.card1 {
+  transition: all 0.3s linear;
+  overflow: hidden;
+
+}
+
+.card1:hover {
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 10px 10px 10px rgb(193, 193, 201);
+  transform: scale(1.2);
+
+}
+
+.card1:hover {
+  color: rgb(64, 65, 63) !important;
+  font-size: 20px !important;
+}
+
+
+
+.Main_title {
+
+  border-radius: 10px;
+  /* text-shadow: 2px 2px 2px rgb(0, 0, 0); */
+  font-size: 22px !important;
+  color: rgb(116, 172, 193) !important;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+
+.Main_title1 {
+
+
+  /* border: none; */
+  font-size: 14px !important;
+  color: rgb(0, 0, 0) !important;
+
+
+
+}
+
+
+
+
+.fa-star,
+.fa-star-half-stroke {
+  color: #fdc732 !important;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0);
+}
+
+
+.Product_title1 {
+  color: rgb(87, 86, 86) !important;
+  font-size: 45px;
+}
+
+.Product_title2 {
+  color: rgb(87, 86, 86) !important;
+  font-size: 25px !important;
+}
+
+.New {
+  color: #ffad16;
+}
+
+.Butten-font {
+  font-size: 11px !important;
+  font-weight: bold;
+
+}
+
+
+
+span img {
+  box-shadow: 1px 1px rgb(105, 104, 104);
+  border-radius: 50%;
+
+}
+
+
+
+.Product_Box {
+  border: 1px solid black !important;
+  border-radius: 40px;
+  background-color: rgb(255, 255, 255);
+}
+
+.Add_to_Cart-Btn {
+
+  border-radius: 10px;
+  background-color: #04647e;
+  color: white;
+  border-bottom: 2px solid #ffad16;
+  /* box-shadow: 1px 2px 2px rgb(86, 144, 224); */
+
+}
+
+
+.input1 {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 254, 253, 0.82);
+}
+
+
+/* .Login_page {
+  background-image: url(/public/images/bg-3.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+} */
+
+
+/* 
+.register_page {
+  background-image: url(/public/images/bg-8.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-position: bottom;
+  position: relative;
+
+}
+
+.register_page::after {
+  content: "";
+  background: rgba(0, 0, 0, 0.571);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+} */
+
+
+.input2 {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 248, 248, 0.968);
+}
+
+.Register {
+  box-shadow: 1px 1px 4px 0px rgb(255, 255, 255) !important;
+  background-color: #16010114;
+  border-radius: 30px;
+  z-index: 2;
+
+}
+
+/*------------------------ Cart CSS--------------------  */
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #5e3887;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgb(137, 74, 205), rgb(17, 177, 177));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(13, 21, 25), rgb(58, 124, 127))
+}
+
+
+/* .Cart_Page {
+  background-image: url(/public/images/bg-12.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  animation: Cart 20s infinite 1s ease-in-out forwards alternate;
+
+} */
+
+
+
+/* @keyframes Cart {
+
+
+
+  15% {
+    background-image: url(/public/images/bg-14.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    animation-direction: reverse;
+  }
+
+  45% {
+    background-image: url(/public/images/bg-7.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    animation-delay: 1s;
+
+  }
+
+  65% {
+    background-image: url(/public/images/bg-15.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+  }
+
+  85% {
+    background-image: url(/public/images/bg-8.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-position: bottom;
+
+  }
+
+
+} */
+
+.shop_badege {
+  font-size: 10px !important;
+  position: relative;
+  left: 10px;
+  bottom: 10px;
+
+}
+
+
+.gradient-custom1 {
+  /* fallback for old browsers */
+  background: #5e3887;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgb(137, 74, 205), rgb(17, 177, 177));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(85, 91, 85), rgb(12, 47, 80))
+}
+
+.Payment_Screen {
+  background: rgb(187, 126, 228);
+  background: linear-gradient(90deg, rgba(187, 126, 228, 1) 0%, rgba(250, 141, 141, 1) 43%, rgba(232, 198, 151, 1) 100%);
+}
+
+.Video_Card {
+  overflow: hidden;
+
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .Product_title1 {
+    color: rgb(87, 86, 86) !important;
+    font-size: 35px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .Product_title1 {
+    color: rgb(87, 86, 86) !important;
+    font-size: 25px !important;
+  }
+
+  .Product_title2 {
+    color: rgb(87, 86, 86) !important;
+    font-size: 17px !important;
+  }
+}
