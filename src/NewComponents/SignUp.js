@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import FormControl from '@mui/material/FormControl';
-import { createUser } from '../Api/authSlice';
+import apiHelper from '../Common/ApiHelper';
 
 const initialValues = {
   name: '',
@@ -29,7 +28,6 @@ const SignupSchema = Yup.object().shape({
 });
 
 export const SignUpForm = () => {
-  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -38,20 +36,17 @@ export const SignUpForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const finalData = { ...values, role: 'A' };
+      const finalData = { ...values};
 
-      // console.log(finalData, 'FinalData------');
+      const response = await apiHelper.userRegister((finalData));
 
-      const response = await dispatch(createUser(finalData));
-
-
-      if (response.type.includes("fulfilled")) {
+      if(response.statusText ===  "OK"){
         toast.success('Signup Successfully');
         navigate('/login');
-        
-      }else{
-        toast.error(response.payload)
       }
+
+
+     
     } catch (error) {
       console.error('Error during signup:', error);
       toast.error('Signup Failed');
@@ -78,7 +73,7 @@ export const SignUpForm = () => {
           </div>
 
           <Formik initialValues={initialValues} validationSchema={SignupSchema} onSubmit={handleSubmit}>
-            {({ values, setFieldValue, isSubmitting }) => (
+            {({  isSubmitting }) => (
               <Form>
                 <div>
                   <Field as={TextField} id="name" name="name" label="Name" variant="outlined" fullWidth margin="normal" />

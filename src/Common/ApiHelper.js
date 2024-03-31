@@ -22,7 +22,7 @@ class ApiHelper {
     }
     userRegister(data) {
 
-        return axios.post(this.baseURL + "/user/signup", data)
+        return axios.post(this.baseURL + "/user/registration", data)
     }
 
     placeOrder(orderDetails) {

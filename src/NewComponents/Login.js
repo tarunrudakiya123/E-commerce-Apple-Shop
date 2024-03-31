@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,8 +11,8 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import FormControl from '@mui/material/FormControl';
-import { userLogin } from '../Api/authSlice';
 import CheckoutSteps from '../Component/CheckoutSteps';
+import apiHelper from '../Common/ApiHelper';
 
 const initialValues = {
   email: '',
@@ -27,7 +26,6 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const LoginForm = () => {
-  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,20 +42,24 @@ export const LoginForm = () => {
 
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await dispatch(userLogin(values));
 
-      if (response.type.includes("fulfilled")) {
+      const response = await apiHelper.userLogin((values));
+
+
+
+
+      if (response && response.statusText === "OK") {
         toast.success('Login Successfully');
-
         if (!redirect) return navigate("/");
         navigate("/" + redirect);
 
-      } else {
-        toast.error(response.payload)
       }
-    } catch (error) {
-      console.error('Error during login:', error);
-      toast.error({ general: 'Login failed. Please try again.' })
+    }
+
+
+    catch (error) {
+      console.error('Error during login:', error?.response?.data);
+      toast.error(`Error during login: ${error?.response?.data?.validationResult[0]?.message}`)
     } finally {
       setSubmitting(false);
     }
