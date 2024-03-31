@@ -40,7 +40,7 @@ export const LoginForm = () => {
     } // eslint-disable-next-line
   }, [token]);
 
-  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
 
       const response = await apiHelper.userLogin((values));
